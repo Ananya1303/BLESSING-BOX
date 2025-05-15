@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogs | BLESSINGBOX</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        nav {
+            display: flex;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-right: 2rem;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #4CAF50;
+        }
+
+        nav ul li a.active {
+            color: #4CAF50;
+        }
+
+        .login-btn {
+            padding: 0.5rem 1rem;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #45a049;
+        }
+
+        .blog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .blog-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #4CAF50;
+            border-radius: 25px;
+            background: transparent;
+            color: #4CAF50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-category {
+            color: #4CAF50;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .blog-excerpt {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .blog-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .blog-author img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .featured-blog {
+            grid-column: span 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .featured-blog .blog-image {
+            height: 100%;
+        }
+
+        .featured-blog .blog-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-blog .blog-title {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .featured-blog {
+                grid-column: span 1;
+                grid-template-columns: 1fr;
+            }
+
+            .featured-blog .blog-image {
+                height: 200px;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">BLESSINGBOX</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="blogs.html" class="active">Blogs</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="login.html" class="login-btn">Login</a></li>
+        </ul>
+    </nav>
+
+    <div class="blog-container">
+        <h1>Latest Stories</h1>
+        <div class="blog-filters">
+            <button class="filter-btn active" data-category="all">All</button>
+            <button class="filter-btn" data-category="Education">Education</button>
+            <button class="filter-btn" data-category="Healthcare">Healthcare</button>
+            <button class="filter-btn" data-category="Environment">Environment</button>
+            <button class="filter-btn" data-category="Animal Welfare">Animal Welfare</button>
+            <button class="filter-btn" data-category="Community">Community</button>
+            <button class="filter-btn" data-category="Success Stories">Success Stories</button>
+        </div>
+
+        <div id="blog-grid" class="blog-grid">
+            <div class="loading">Loading blogs...</div>
+        </div>
+    </div>
+
+    <script>
+        // Fetch and display blogs
+        async function fetchBlogs() {
+            try {
+                const response = await fetch('http://localhost:5000/api/blogs');
+                const blogs = await response.json();
+                displayBlogs(blogs);
+            } catch (error) {
+                console.error('Error fetching blogs:', error);
+                document.getElementById('blog-grid').innerHTML = `
+                    <div class="error">
+                        Error loading blogs. Please try again later.
+                    </div>
+                `;
+            }
+        }
+
+        // Display blogs in the grid
+        function displayBlogs(blogs) {
+            const blogGrid = document.getElementById('blog-grid');
+            blogGrid.innerHTML = '';
+
+            // Sort blogs to show featured ones first
+            blogs.sort((a, b) => b.featured - a.featured);
+
+            blogs.forEach(blog => {
+                const blogCard = document.createElement('div');
+                blogCard.className = `blog-card ${blog.featured ? 'featured-blog' : ''}`;
+                blogCard.innerHTML = `
+                    <img src="${blog.imageUrl}" alt="${blog.title}" class="blog-image">
+                    <div class="blog-content">
+                        <div class="blog-category">${blog.category}</div>
+                        <h2 class="blog-title">${blog.title}</h2>
+                        <p class="blog-excerpt">${blog.excerpt}</p>
+                        <div class="blog-meta">
+                            <div class="blog-author">
+                                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(blog.author)}" alt="${blog.author}">
+                                <span>${blog.author}</span>
+                            </div>
+                            <div class="blog-date">${new Date(blog.createdAt).toLocaleDateString()}</div>
+                        </div>
+                    </div>
+                `;
+                blogGrid.appendChild(blogCard);
+            });
+        }
+
+        // Filter blogs by category
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', async () => {
+                // Update active button
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const category = button.dataset.category;
+                try {
+                    const url = category === 'all' 
+                        ? 'http://localhost:5000/api/blogs'
+                        : `http://localhost:5000/api/blogs/category/${category}`;
+                    
+                    const response = await fetch(url);
+                    const blogs = await response.json();
+                    displayBlogs(blogs);
+                } catch (error) {
+                    console.error('Error filtering blogs:', error);
+                    document.getElementById('blog-grid').innerHTML = `
+                        <div class="error">
+                            Error filtering blogs. Please try again later.
+                        </div>
+                    `;
+                }
+            });
+        });
+
+        // Initial load
+        fetchBlogs();
+    </script>
+</body>
+</html> 

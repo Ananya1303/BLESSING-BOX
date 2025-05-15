@@ -1,0 +1,52 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f7f7;
+  }
+  
+  nav {
+    background: #2d6a4f;
+    padding: 1em;
+    text-align: center;
+  }
+  
+  nav a {
+    color: #fff;
+    margin: 0 1em;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  nav a:hover {
+    text-decoration: underline;
+  }
+  h1{
+    text-align: center;
+  }
+  p{
+    text-align: center;
+  }
+  main {
+    max-width: 600px;
+    margin: 2em auto;
+    background: #fff;
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    
+  }
+  .hero-img {
+    width: 100%;
+    max-height: 450px;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 1em;
+  }
+  .ngo-card {
+    background: #e9f5ee;
+    border: 1px solid #b7e4c7;
+    border-radius: 8px;
+    padding: 1em;
+    margin-bottom: 1em;
+  }

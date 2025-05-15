@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse NGOs | BLESSINGBOX</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .browse-ngos {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: calc(100vh - 60px);
+        }
+
+        .browse-ngos .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .browse-ngos h2 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #6c757d;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .search-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            justify-content: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 0.5rem;
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .search-box input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+            outline: none;
+        }
+
+        .search-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(76, 175, 80, 0.2);
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .filter-options select {
+            padding: 1rem 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            min-width: 180px;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .filter-options select:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+            outline: none;
+        }
+
+        .ngos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .ngo-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .ngo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .ngo-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .ngo-card:hover .ngo-image {
+            transform: scale(1.05);
+        }
+
+        .ngo-content {
+            padding: 2rem;
+            text-align: left;
+        }
+
+        .ngo-name {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .ngo-cause {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            color: #2e7d32;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .ngo-location {
+            color: #6c757d;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-align: left;
+        }
+
+        .ngo-location i {
+            color: #4CAF50;
+        }
+
+        .ngo-description {
+            color: #495057;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .ngo-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .donate-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            box-shadow: 0 4px 6px rgba(76, 175, 80, 0.2);
+        }
+
+        .donate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .contact-btn {
+            background: #f8f9fa;
+            color: #2c3e50;
+            border: 2px solid #e9ecef;
+        }
+
+        .contact-btn:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .load-more {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .load-more-btn {
+            padding: 1rem 3rem;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(76, 175, 80, 0.2);
+        }
+
+        .load-more-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .search-filters {
+                flex-direction: column;
+                padding: 1.5rem;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+
+            .filter-options {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .filter-options select {
+                width: 100%;
+            }
+
+            .ngos-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .browse-ngos h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        /* Animation for NGO cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .ngo-card {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .ngo-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .ngo-card:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #6c757d;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #dc3545;
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-info {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .modal-info h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-info h3 i {
+            color: #4CAF50;
+        }
+
+        .info-text {
+            color: #495057;
+            line-height: 1.6;
+        }
+
+        .contact-details {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 0.5rem;
+        }
+
+        .contact-details p {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            color: #495057;
+        }
+
+        .contact-details p:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-details i {
+            color: #4CAF50;
+            font-size: 1.1rem;
+            width: 20px;
+        }
+
+        .modal-content {
+            max-width: 700px;
+        }
+
+        .modal-body {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: #4CAF50;
+            border-radius: 4px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: #45a049;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn.primary {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border: none;
+        }
+
+        .modal-btn.secondary {
+            background: #f8f9fa;
+            color: #2c3e50;
+            border: 2px solid #e9ecef;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .needs-details {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 0.5rem;
+        }
+
+        .needs-details p {
+            color: #495057;
+            line-height: 1.6;
+        }
+
+        .needs-details .no-needs {
+            color: #6c757d;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="register.html">User Register</a>
+        <a href="ngo-register.html">NGO Sign Up</a>
+        <a href="ngo-login.html">NGO Sign In</a>
+        <a href="blogs.html">Blogs</a>
+        <a href="contact.html">Contact Us</a>
+    </nav>
+
+    <div class="browse-ngos">
+        <div class="container">
+            <h2>Discover Impactful NGOs</h2>
+            <p class="section-subtitle">Connect with trusted organizations making a difference in your community. Find the perfect cause to support and create lasting change.</p>
+            
+            <div class="search-filters">
+                <div class="search-box">
+                    <input type="text" id="ngoSearch" placeholder="Search NGOs by name or cause...">
+                    <button type="button" class="search-btn">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+                <div class="filter-options">
+                    <select id="locationFilter">
+                        <option value="">All Locations</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Kolkata">Kolkata</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Hyderabad">Hyderabad</option>
+                    </select>
+                    <select id="causeFilter">
+                        <option value="">All Causes</option>
+                        <option value="Multiple Fields">Multiple Fields</option>
+                        <option value="Education">Education</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Environment">Environment</option>
+                        <option value="Animal Welfare">Animal Welfare</option>
+                        <option value="Community">Community Development</option>
+                        <option value="Women Empowerment">Women Empowerment</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="ngos-grid" id="ngosGrid">
+                <!-- NGO cards will be dynamically loaded here -->
+            </div>
+
+            <div class="load-more">
+                <button id="loadMoreBtn" class="load-more-btn">
+                    <i class="fas fa-plus"></i> Load More NGOs
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Template -->
+    <div id="ngoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">NGO Details</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-info">
+                    <h3><i class="fas fa-building"></i> Organization</h3>
+                    <p id="modalName" class="info-text"></p>
+                </div>
+                <div class="modal-info">
+                    <h3><i class="fas fa-info-circle"></i> About</h3>
+                    <p id="modalDescription" class="info-text"></p>
+                </div>
+                <div class="modal-info">
+                    <h3><i class="fas fa-map-marker-alt"></i> Location</h3>
+                    <p id="modalLocation" class="info-text"></p>
+                </div>
+                <div class="modal-info">
+                    <h3><i class="fas fa-bullseye"></i> Primary Cause</h3>
+                    <p id="modalCause" class="info-text"></p>
+                </div>
+                <div class="modal-info">
+                    <h3><i class="fas fa-hands-helping"></i> Current Needs</h3>
+                    <div class="needs-details">
+                        <p id="modalNeeds" class="info-text"></p>
+                    </div>
+                </div>
+                <div class="modal-info">
+                    <h3><i class="fas fa-envelope"></i> Contact Information</h3>
+                    <div class="contact-details">
+                        <p><i class="fas fa-envelope"></i> Email: <span id="modalEmail" class="info-text"></span></p>
+                        <p><i class="fas fa-phone"></i> Phone: <span id="modalPhone" class="info-text"></span></p>
+                        <p><i class="fas fa-map-marked-alt"></i> Address: <span id="modalAddress" class="info-text"></span></p>
+                    </div>
+                </div>
+                <div class="modal-info">
+                    <h3><i class="fas fa-clock"></i> Registration Date</h3>
+                    <p id="modalDate" class="info-text"></p>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn secondary" id="closeModalBtn">Close</button>
+                <button class="modal-btn primary" id="modalActionBtn">Send Message</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allNGOs = []; // Store all NGOs globally
+
+        // Function to fetch and display NGOs
+        async function fetchNGOs() {
+            try {
+                const response = await fetch('http://localhost:5000/api/ngos');
+                const data = await response.json();
+                console.log('Fetched NGOs:', data);
+                
+                // Store all NGOs
+                allNGOs = data;
+                
+                // Apply filters and display
+                displayFilteredNGOs();
+            } catch (error) {
+                console.error('Error fetching NGOs:', error);
+                const ngosGrid = document.getElementById('ngosGrid');
+                ngosGrid.innerHTML = `
+                    <div style="text-align: center; grid-column: 1/-1; padding: 3rem;">
+                        <i class="fas fa-exclamation-circle" style="font-size: 3rem; color: #dc3545; margin-bottom: 1rem;"></i>
+                        <h3 style="color: #2c3e50; margin-bottom: 1rem;">Error Loading NGOs</h3>
+                        <p style="color: #6c757d;">Please try again later. We're working to fix this issue.</p>
+                    </div>`;
+            }
+        }
+
+        // Function to display filtered NGOs
+        function displayFilteredNGOs() {
+            const filteredNGOs = filterNGOs(allNGOs);
+            const ngosGrid = document.getElementById('ngosGrid');
+            ngosGrid.innerHTML = '';
+
+            if (!filteredNGOs || filteredNGOs.length === 0) {
+                ngosGrid.innerHTML = `
+                    <div style="text-align: center; grid-column: 1/-1; padding: 3rem;">
+                        <i class="fas fa-search" style="font-size: 3rem; color: #6c757d; margin-bottom: 1rem;"></i>
+                        <h3 style="color: #2c3e50; margin-bottom: 1rem;">No NGOs Found</h3>
+                        <p style="color: #6c757d;">Try adjusting your search criteria or filters.</p>
+                    </div>`;
+                return;
+            }
+
+            filteredNGOs.forEach(ngo => {
+                const ngoCard = document.createElement('div');
+                ngoCard.className = 'ngo-card';
+                ngoCard.innerHTML = `
+                    <img src="${ngo.imageUrl || 'https://via.placeholder.com/300x200?text=NGO'}" alt="${ngo.name}" class="ngo-image">
+                    <div class="ngo-content">
+                        <h3 class="ngo-name">${ngo.name}</h3>
+                        <span class="ngo-cause">${ngo.cause}</span>
+                        <div class="ngo-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            ${ngo.location}
+                        </div>
+                        <p class="ngo-description">${ngo.description}</p>
+                        <div class="ngo-actions">
+                            <a href="#" class="action-btn donate-btn" onclick="event.preventDefault(); showNGOModal('${ngo._id}', 'donate')">
+                                <i class="fas fa-heart"></i> Donate
+                            </a>
+                            <a href="#" class="action-btn contact-btn" onclick="event.preventDefault(); showNGOModal('${ngo._id}', 'contact')">
+                                <i class="fas fa-envelope"></i> Contact
+                            </a>
+                        </div>
+                    </div>
+                `;
+                ngosGrid.appendChild(ngoCard);
+            });
+        }
+
+        // Function to filter NGOs
+        function filterNGOs(ngos) {
+            const searchTerm = document.getElementById('ngoSearch').value.toLowerCase();
+            const location = document.getElementById('locationFilter').value.toLowerCase();
+            const cause = document.getElementById('causeFilter').value.toLowerCase();
+
+            return ngos.filter(ngo => {
+                const matchesSearch = ngo.name.toLowerCase().includes(searchTerm) ||
+                                    ngo.description.toLowerCase().includes(searchTerm) ||
+                                    ngo.cause.toLowerCase().includes(searchTerm);
+                const matchesLocation = !location || ngo.location.toLowerCase() === location;
+                const matchesCause = !cause || ngo.cause.toLowerCase() === cause;
+                return matchesSearch && matchesLocation && matchesCause;
+            });
+        }
+
+        // Function to show modal with NGO details
+        function showNGOModal(ngoId, action) {
+            // Find the NGO from our stored data
+            const ngo = allNGOs.find(n => n._id === ngoId);
+            if (!ngo) {
+                console.error('NGO not found');
+                return;
+            }
+
+            const modal = document.getElementById('ngoModal');
+            const modalTitle = document.querySelector('.modal-title');
+            const modalName = document.getElementById('modalName');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalLocation = document.getElementById('modalLocation');
+            const modalCause = document.getElementById('modalCause');
+            const modalEmail = document.getElementById('modalEmail');
+            const modalPhone = document.getElementById('modalPhone');
+            const modalAddress = document.getElementById('modalAddress');
+            const modalDate = document.getElementById('modalDate');
+            const modalNeeds = document.getElementById('modalNeeds');
+            const modalActionBtn = document.getElementById('modalActionBtn');
+
+            // Format the date
+            const registrationDate = new Date(ngo.createdAt).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Set modal content
+            modalTitle.textContent = ngo.name;
+            modalName.textContent = ngo.name;
+            modalDescription.textContent = ngo.description || 'No description available';
+            modalLocation.textContent = ngo.location || 'Location not specified';
+            modalCause.textContent = ngo.cause || 'Cause not specified';
+            modalEmail.textContent = ngo.email || 'Email not available';
+            modalPhone.textContent = ngo.phone || 'Phone not available';
+            modalAddress.textContent = ngo.address || 'Address not available';
+            modalDate.textContent = registrationDate;
+
+            // Set needs content
+            if (ngo.needs && ngo.needs.trim() !== '') {
+                modalNeeds.textContent = ngo.needs;
+                modalNeeds.classList.remove('no-needs');
+            } else {
+                modalNeeds.textContent = 'This NGO has not specified their current needs. You can contact them to inquire about how you can help.';
+                modalNeeds.classList.add('no-needs');
+            }
+
+            // Set action button text and behavior
+            if (action === 'donate') {
+                modalActionBtn.textContent = 'Proceed to Donate';
+                modalActionBtn.onclick = () => {
+                    alert(`Thank you for your interest in donating to ${ngo.name}. The donation feature will be available soon!`);
+                };
+            } else {
+                modalActionBtn.textContent = 'Send Message';
+                modalActionBtn.onclick = () => {
+                    if (ngo.email) {
+                        window.location.href = `mailto:${ngo.email}?subject=Inquiry about ${ngo.name}`;
+                    } else {
+                        alert('Email address not available for this NGO.');
+                    }
+                };
+            }
+
+            // Show modal
+            modal.style.display = 'block';
+
+            // Close modal when clicking the close button or outside the modal
+            const closeModal = () => {
+                modal.style.display = 'none';
+            };
+
+            document.querySelector('.close-modal').onclick = closeModal;
+            document.getElementById('closeModalBtn').onclick = closeModal;
+            window.onclick = (event) => {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            };
+        }
+
+        // Update event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchNGOs();
+
+            // Add event listeners for search and filters
+            document.getElementById('ngoSearch').addEventListener('input', displayFilteredNGOs);
+            document.getElementById('locationFilter').addEventListener('change', displayFilteredNGOs);
+            document.getElementById('causeFilter').addEventListener('change', displayFilteredNGOs);
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NGO Dashboard | BLESSINGBOX</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .back-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #666;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+    .back-button:hover {
+      background-color: #555;
+    }
+    .dashboard-container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .welcome-section {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 500;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #4CAF50;
+    }
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    .form-section {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .form-section h3 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .form-section h3 i {
+      color: #4CAF50;
+    }
+    button {
+      padding: 12px 24px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #45a049;
+      transform: translateY(-2px);
+    }
+    #dashboardMsg {
+      margin-top: 15px;
+      padding: 15px;
+      border-radius: 8px;
+      display: none;
+    }
+    .error {
+      background-color: #ffebee;
+      color: #c62828;
+    }
+    .success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+    .logout-btn {
+      background-color: #f44336;
+      margin-top: 20px;
+    }
+    .logout-btn:hover {
+      background-color: #d32f2f;
+    }
+    .save-btn {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="back-button">← Back to Home</a>
+  </nav>
+  <main>
+    <div class="dashboard-container">
+      <div class="welcome-section">
+        <h2>Welcome, <span id="ngoName"></span>!</h2>
+      </div>
+      
+      <form id="updateProfileForm">
+        <div class="form-section">
+          <h3><i class="fas fa-building"></i> Organization Details</h3>
+          <div class="form-group">
+            <label for="name">NGO Name</label>
+            <input type="text" id="name" name="name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email">
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone">
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3><i class="fas fa-map-marker-alt"></i> Location Information</h3>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <textarea id="address" name="address"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="location">City</label>
+            <select id="location" name="location">
+              <option value="">Select City</option>
+              <option value="Delhi">Delhi</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="Bangalore">Bangalore</option>
+              <option value="Kolkata">Kolkata</option>
+              <option value="Chennai">Chennai</option>
+              <option value="Hyderabad">Hyderabad</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3><i class="fas fa-info-circle"></i> About Your NGO</h3>
+          <div class="form-group">
+            <label for="cause">Primary Cause</label>
+            <select id="cause" name="cause">
+              <option value="">Select Cause</option>
+              <option value="Multiple Fields">Multiple Fields</option>
+              <option value="Education">Education</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Environment">Environment</option>
+              <option value="Animal Welfare">Animal Welfare</option>
+              <option value="Community">Community Development</option>
+              <option value="Women Empowerment">Women Empowerment</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description"></textarea>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3><i class="fas fa-hands-helping"></i> Current Needs</h3>
+          <div class="form-group">
+            <label for="needs">What does your NGO need?</label>
+            <textarea id="needs" name="needs" placeholder="List the items, services, or support your NGO currently needs"></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="save-btn">Update Selected Fields</button>
+      </form>
+      
+      <div id="dashboardMsg"></div>
+      
+      <button id="logoutBtn" class="logout-btn">Logout</button>
+    </div>
+  </main>
+  <script>
+    // Load NGO data when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        const ngoData = JSON.parse(localStorage.getItem('ngo'));
+        console.log('Loaded NGO data:', ngoData);
+        
+        if (!ngoData) {
+            console.log('No NGO data found, redirecting to login');
+            window.location.href = 'ngo-login.html';
+            return;
+        }
+
+        // Display NGO name in welcome section
+        document.getElementById('ngoName').textContent = ngoData.name || 'NGO';
+
+        // Populate form fields with NGO data
+        document.getElementById('name').value = ngoData.name || '';
+        document.getElementById('email').value = ngoData.email || '';
+        document.getElementById('phone').value = ngoData.phone || '';
+        document.getElementById('address').value = ngoData.address || '';
+        document.getElementById('location').value = ngoData.location || '';
+        document.getElementById('cause').value = ngoData.cause || '';
+        document.getElementById('description').value = ngoData.description || '';
+        document.getElementById('needs').value = ngoData.needs || '';
+
+        // Update profile form submission
+        document.getElementById('updateProfileForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = {
+                id: ngoData.id,
+                email: ngoData.email,
+                name: document.getElementById('name').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                address: document.getElementById('address').value.trim(),
+                location: document.getElementById('location').value,
+                cause: document.getElementById('cause').value,
+                description: document.getElementById('description').value.trim(),
+                needs: document.getElementById('needs').value.trim()
+            };
+
+            try {
+                console.log('Updating profile with:', formData);
+                const response = await fetch('http://localhost:5000/api/ngos/update', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                console.log('Update response:', result);
+                
+                if (!response.ok) {
+                    throw new Error(result.error || 'Update failed');
+                }
+
+                // Update stored NGO data
+                localStorage.setItem('ngo', JSON.stringify(result.ngo));
+                
+                // Show success message
+                const dashboardMsg = document.getElementById('dashboardMsg');
+                dashboardMsg.textContent = 'Profile updated successfully!';
+                dashboardMsg.className = 'success';
+                dashboardMsg.style.display = 'block';
+                
+                // Hide success message after 3 seconds
+                setTimeout(() => {
+                    dashboardMsg.style.display = 'none';
+                }, 3000);
+
+            } catch (error) {
+                console.error('Update error:', error);
+                const dashboardMsg = document.getElementById('dashboardMsg');
+                dashboardMsg.textContent = error.message || 'Update failed. Please try again.';
+                dashboardMsg.className = 'error';
+                dashboardMsg.style.display = 'block';
+            }
+        });
+
+        // Logout button handler
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('ngo');
+            window.location.href = 'index.html';
+        });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Us | BLESSINGBOX</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .contact-info {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        .contact-info h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            margin-bottom: 20px;
+        }
+        .info-item h3 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+        .info-item p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .contact-form {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
+        }
+        .submit-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .submit-btn:hover {
+            background: #45a049;
+        }
+        .social-links {
+            margin-top: 30px;
+        }
+        .social-links a {
+            display: inline-block;
+            margin-right: 15px;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .social-links a:hover {
+            text-decoration: underline;
+        }
+        #contactMsg {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        .error {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="back-button">← Back to Home</a>
+    </nav>
+    <main class="contact-container">
+        <div class="contact-info">
+            <h2>Get in Touch</h2>
+            <div class="info-item">
+                <h3>Address</h3>
+                <p>123 Charity Street<br>Community Center<br>City, State 12345</p>
+            </div>
+            <div class="info-item">
+                <h3>Email</h3>
+                <p>contact@blessingbox.org</p>
+            </div>
+            <div class="info-item">
+                <h3>Phone</h3>
+                <p>+1 (555) 123-4567</p>
+            </div>
+            <div class="info-item">
+                <h3>Working Hours</h3>
+                <p>Monday - Friday: 9:00 AM - 5:00 PM<br>Saturday: 10:00 AM - 2:00 PM<br>Sunday: Closed</p>
+            </div>
+            <div class="social-links">
+                <h3>Follow Us</h3>
+                <a href="#">Facebook</a>
+                <a href="#">Twitter</a>
+                <a href="#">Instagram</a>
+                <a href="#">LinkedIn</a>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <h2>Send us a Message</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject:</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+            <div id="contactMsg"></div>
+        </div>
+    </main>
+    <script src="main.js"></script>
+</body>
+</html> 
